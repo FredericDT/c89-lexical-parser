@@ -1,4 +1,4 @@
-add_executable(c89_lexical_parse main.cpp arguments_parser.cpp  file_check.cpp lexical_parser.cpp)
+add_executable(c89_lexical_parse main.cpp arguments_parser.cpp  file_check.cpp lexical_parser.cpp lexical_parser_result_analysis.cpp ../include/lexical_parser_result_analysis.h)
 target_include_directories(c89_lexical_parse INTERFACE)
 include_directories(../lib/re2)
 target_link_libraries(c89_lexical_parse cxxopts)
