@@ -1,0 +1,7 @@
+add_executable(c89_lexical_parse main.cpp arguments_parser.cpp  file_check.cpp lexical_parser.cpp)
+target_include_directories(c89_lexical_parse INTERFACE)
+include_directories(../lib/re2)
+target_link_libraries(c89_lexical_parse cxxopts)
+target_link_libraries(c89_lexical_parse lexc89)
+target_link_libraries(c89_lexical_parse re2)
+target_link_libraries(c89_lexical_parse pthread)

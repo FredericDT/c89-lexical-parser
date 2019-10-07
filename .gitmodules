@@ -1,0 +1,6 @@
+[submodule "lib/cxxopts"]
+	path = lib/cxxopts
+	url = https://github.com/jarro2783/cxxopts.git
+[submodule "lib/re2"]
+	path = lib/re2
+	url = https://github.com/google/re2.git
