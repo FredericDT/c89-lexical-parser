@@ -9,7 +9,7 @@ namespace fdt {
     namespace lexical_parser {
         void check_file_good_or_exit_error(const std::ios &file, const std::string &path) {
             if (!file.good()) {
-                std::cout << __FILE__ << ":" << __LINE__ << "\"" << path << "\" file not good" << std::endl;
+                std::cerr << __FILE__ << ":" << __LINE__ << "\"" << path << "\" file not good" << std::endl;
                 exit(2);
             }
         }

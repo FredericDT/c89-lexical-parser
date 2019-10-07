@@ -25,7 +25,8 @@ namespace fdt {
                 HEADER_NAME,
                 PREPROESSING_NUMBER,
                 COMMENT,
-                UNKNOWN
+                UNKNOWN,
+                TYPE_ENUM_LENGTH // this value should be at the end of the type enumeration
             };
 
             const std::string to_string() const;
