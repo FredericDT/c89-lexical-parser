@@ -2,7 +2,6 @@
 #include <fstream>
 
 #include "lexical_parser.h"
-#include "cxxopts.hpp"
 #include "arguments_parser.h"
 #include "file_check.h"
 #include "lexical_parser_result_analysis.h"

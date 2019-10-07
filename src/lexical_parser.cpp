@@ -6,8 +6,8 @@
 
 #include "re2/re2.h"
 
-#include <regex>
 #include <iostream>
+#include <sstream>
 
 namespace fdt {
     namespace lexical_parser {
