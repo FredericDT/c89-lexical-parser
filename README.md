@@ -23,4 +23,5 @@ cmake --build .
 |f, file|required, provide input file path|
 |o, output|optional, provide output file path, if absent, output will be printed to stdout|
 |v, verbose|optional, print debug information to stdout|
-|a, analysis|optional, print analytical information to stdout (not implement yet)|
+|a, analysis|optional, print analytical information to stdout|
+|c, comments|optional, result includes comments if this argument presents|
