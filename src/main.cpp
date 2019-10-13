@@ -14,7 +14,8 @@ int main(int argc, char *argv[]) {
     fdt::lexical_parser::check_file_good_or_exit_error(input_file, arguments_parse_result.file_path);
 
     fdt::lexical_parser::lexical_parse_result lexical_parse_result = fdt::lexical_parser::lexical_parse(input_file,
-                                                                                                        arguments_parse_result.verbose);
+                                                                                                        arguments_parse_result.verbose,
+                                                                                                        arguments_parse_result.include_comments);
     bool output_file_provided = !arguments_parse_result.output_file.empty();
 
     if (lexical_parse_result.is_exception_occur()) {

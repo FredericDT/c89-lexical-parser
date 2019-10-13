@@ -15,12 +15,13 @@ namespace fdt {
             bool analysis;
             std::string output_file;
             bool verbose;
+            bool include_comments;
 
-            parse_result(const std::string &file_path, bool analysis, const std::string &output_file, bool verbose) : file_path(file_path),
+            parse_result(const std::string &file_path, bool analysis, const std::string &output_file, bool verbose, bool include_comments) : file_path(file_path),
                                                                                             analysis(analysis),
-                                                                                            output_file(output_file), verbose(verbose) {}
+                                                                                            output_file(output_file), verbose(verbose), include_comments(include_comments) {}
 
-            parse_result() : file_path(""), analysis(false), output_file(""), verbose(false) {}
+            parse_result() : file_path(""), analysis(false), output_file(""), verbose(false), include_comments(false) {}
         };
 
         fdt::lexical_parser::parse_result parse_arguments(int argc, char **argv);

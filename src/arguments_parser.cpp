@@ -7,21 +7,20 @@
 namespace fdt {
     namespace lexical_parser {
         fdt::lexical_parser::parse_result parse_arguments(int argc, char **argv) {
+            bool analysis = false;
+            bool verbose = false;
+            bool include_comments = false;
+            cxxopts::Options options(argv[0], " - lexical parser for c89 by fdt");
+            options
+                    .allow_unrecognised_options()
+                    .add_options()
+                            ("a,analysis", "Print analytical information to STDOUT", cxxopts::value<bool>(analysis))
+                            ("f,file", "Input file, required", cxxopts::value<std::string>(), "FILE")
+                            ("o,output", "Output file", cxxopts::value<std::string>(), "PATH")
+                            ("v,verbose", "Print verbose", cxxopts::value<bool>(verbose))
+                            ("c, comments", "Result include comments", cxxopts::value<bool>(include_comments))
+                            ("h,help", "Print help");
             try {
-                cxxopts::Options options(argv[0], " - lexical parser for c89 by fdt");
-
-                bool analysis = false;
-                bool verbose = false;
-
-                options
-                        .allow_unrecognised_options()
-                        .add_options()
-                                ("a,analysis", "Analytical information", cxxopts::value<bool>(analysis))
-                                ("f,file", "Input file, required", cxxopts::value<std::string>(), "FILE")
-                                ("o,output", "Output file", cxxopts::value<std::string>(), "PATH")
-                                ("v,verbose", "Print verbose", cxxopts::value<bool>(verbose))
-                                ("h,help", "Print help");
-
                 auto result = options.parse(argc, argv);
 
                 if (result.count("help")) {
@@ -42,10 +41,11 @@ namespace fdt {
                     output = result["output"].as<std::string>();
                 }
 
-                return fdt::lexical_parser::parse_result(file, analysis, output, verbose);
+                return fdt::lexical_parser::parse_result(file, analysis, output, verbose, include_comments);
 
             } catch (const cxxopts::OptionException &e) {
                 std::cout << "error parsing options: " << e.what() << std::endl;
+                std::cout << options.help({""}) << std::endl;
                 exit(1);
             }
         }

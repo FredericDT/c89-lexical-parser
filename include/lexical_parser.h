@@ -91,7 +91,7 @@ namespace fdt {
 
         const std::string to_string(const enum lexical_element::type &v);
 
-        lexical_parse_result lexical_parse(std::istream &input_stream, bool verbose);
+        lexical_parse_result lexical_parse(std::istream &input_stream, bool verbose, bool include_comments);
 
         const std::string to_string(const std::vector<lexical_element> &v);
 

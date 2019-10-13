@@ -143,13 +143,14 @@ namespace fdt {
         void parse_match_result(std::string &buffer, std::string &match, std::vector<lexical_element> &result,
                                 lexical_element &e, enum lexical_element::type type,
                                 std::map<std::string, long> &identifier_map, bool &excep,
-                                bool verbose, long &line_count, long &char_count) {
+                                bool verbose, long &line_count, long &char_count, bool include_comments) {
             excep = false;
             e.set_type(type);
 
             std::string property = match;
             if (type == lexical_element::IDENTIFIER) {
-                property = "id" + std::to_string(get_identifier_id(identifier_map, match));
+//                property = "id" + std::to_string(get_identifier_id(identifier_map, match));
+                property = match;
             }
 
             e.set_property(property);
@@ -181,7 +182,10 @@ namespace fdt {
                 buffer = buffer.substr(1);
             }
 
-            result.emplace_back(e);
+            if (type != lexical_element::COMMENT || include_comments) {
+                result.emplace_back(e);
+            }
+
             if (verbose) {
                 std::cout << __FILE__ << ":" << __LINE__ << " match:" << match << std::endl;
                 std::cout << __FILE__ << ":" << __LINE__ << " e:" << e.to_string() << std::endl;
@@ -189,7 +193,7 @@ namespace fdt {
 
         }
 
-        lexical_parse_result lexical_parse(std::istream &input_stream, bool verbose) {
+        lexical_parse_result lexical_parse(std::istream &input_stream, bool verbose, bool include_comments) {
             lexical_parse_result parse_result = lexical_parse_result();
             std::vector<lexical_element> lexical_element_vector = std::vector<lexical_element>();
             long parsed_line_count = 1;
@@ -260,7 +264,7 @@ namespace fdt {
                             }
                             parse_match_result(buffer, re_match, lexical_element_vector, e, lexical_element::COMMENT,
                                                identifier_map,
-                                               excep, verbose, parsed_line_count, parsed_char_count);
+                                               excep, verbose, parsed_line_count, parsed_char_count, include_comments);
                         }
                     } else {
                         std::string int_re_match;
@@ -274,38 +278,45 @@ namespace fdt {
                             if (identifier_re_match.length() > re_match.length()) {
                                 parse_match_result(buffer, identifier_re_match, lexical_element_vector, e,
                                                    lexical_element::IDENTIFIER,
-                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
                             } else {
                                 parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                    lexical_element::KEYWORD,
                                                    identifier_map,
-                                                   excep, verbose, parsed_line_count, parsed_char_count);
+                                                   excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
                             }
                         } else if (RE2::PartialMatch(buffer, FLOATING_CONSTANT_REGEX, &re_match) |
                                    RE2::PartialMatch(buffer, INTEGER_CONSTANT_REGEX, &int_re_match)) {
                             if (int_re_match.length() >= re_match.length()) {
                                 parse_match_result(buffer, int_re_match, lexical_element_vector, e,
                                                    lexical_element::INTEGER_CONSTANT,
-                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
                             } else {
                                 parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                    lexical_element::FLOATING_CONSTANT,
-                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
                             }
                         } else if (RE2::PartialMatch(buffer, ENUMERATION_CONSTANT_REGEX, &re_match)) {
                             // TODO: figure out what is this
                             parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                lexical_element::ENUMERATION_CONSTANT,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (RE2::PartialMatch(buffer, CHARACTER_CONSTANT_REGEX, &re_match)) {
                             parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                lexical_element::CHARACTER_CONSTANT,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (automata_state == automata_state::NEUTRAL &&
                                    RE2::PartialMatch(buffer, STRING_LITERAL_REGEX, &re_match)) {
                             parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                lexical_element::STRING_LITERAL,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (automata_state == automata_state::INCLUDE &&
                                    RE2::PartialMatch(buffer, HEADER_NAME_REGEX, &header_name_re_match)) {
                             automata_state = automata_state::NEUTRAL;
@@ -315,7 +326,8 @@ namespace fdt {
                             }
                             parse_match_result(buffer, header_name_re_match, lexical_element_vector, e,
                                                lexical_element::HEADER_NAME,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (RE2::PartialMatch(buffer, COMMENT_START_REGEX, &comment_re_match)
                                    | RE2::PartialMatch(buffer, OPERATOR_REGEX, &re_match)
                                    | RE2::PartialMatch(buffer, INCLUDE_PREPROCESSING_REGEX, &include_re_match)
@@ -329,11 +341,13 @@ namespace fdt {
                                 }
                                 parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                    lexical_element::PUNCTUATOR,
-                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
                                 RE2::PartialMatch(buffer, IDENTIFIER_REGEX, &re_match);
                                 parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                    lexical_element::IDENTIFIER,
-                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
 
                             } else if (comment_re_match.length() >= re_match.length()) {
                                 automata_state = automata_state::COMMENT;
@@ -348,19 +362,23 @@ namespace fdt {
                             } else {
                                 parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                    lexical_element::OPERATOR,
-                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                                   identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                                   include_comments);
                             }
                         } else if (RE2::PartialMatch(buffer, PUNCTUATOR_REGEX, &re_match)) {
                             parse_match_result(buffer, re_match, lexical_element_vector, e, lexical_element::PUNCTUATOR,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (RE2::PartialMatch(buffer, PREPROCESSING_NUMBER_REGEX, &re_match)) {
                             parse_match_result(buffer, re_match, lexical_element_vector, e,
                                                lexical_element::PREPROESSING_NUMBER,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (RE2::PartialMatch(buffer, UNKNOWN_REGEX, &re_match)) {
                             // This category should belong to preprocessing-token
                             parse_match_result(buffer, re_match, lexical_element_vector, e, lexical_element::UNKNOWN,
-                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count);
+                                               identifier_map, excep, verbose, parsed_line_count, parsed_char_count,
+                                               include_comments);
                         } else if (!input_stream) {
                             break;
                         }
