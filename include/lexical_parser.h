@@ -15,10 +15,10 @@ namespace fdt {
          */
         class lexical_element {
         public:
-                /**
-                 * Enumeration for classifying lexical elements into serval types
-                 * IMPORTANT: TYPE_ENUM_LENGTH should always be the last one of enum type
-                 */
+            /**
+             * Enumeration for classifying lexical elements into serval types
+             * IMPORTANT: TYPE_ENUM_LENGTH should always be the last one of enum type
+             */
             enum type {
                 KEYWORD,
                 IDENTIFIER,
