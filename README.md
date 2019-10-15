@@ -5,7 +5,7 @@ reference https://www.pdf-archive.com/2014/10/02/ansi-iso-9899-1990-1/ansi-iso-9
 ## Build
 
 ```bash
-git clone https://github.com/FredericDT/c89-lexical-parser.git
+git clone --recurse-submodules https://github.com/FredericDT/c89-lexical-parser.git
 cd c89-lexical-parser
 mkdir build
 cd build
