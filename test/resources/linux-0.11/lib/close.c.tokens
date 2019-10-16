@@ -1,0 +1,16 @@
+<operator, #>
+<identifier, define>
+<identifier, __LIBRARY__>
+<punctuator, #>
+<identifier, include>
+<header_name, <unistd.h>>
+<identifier, _syscall1>
+<operator, (>
+<keyword, int>
+<operator, ,>
+<identifier, close>
+<operator, ,>
+<keyword, int>
+<operator, ,>
+<identifier, fd>
+<operator, )>

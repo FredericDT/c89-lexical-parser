@@ -1,0 +1,105 @@
+<punctuator, #>
+<identifier, include>
+<header_name, <stdarg.h>>
+<punctuator, #>
+<identifier, include>
+<header_name, <stddef.h>>
+<punctuator, #>
+<identifier, include>
+<header_name, <linux/kernel.h>>
+<keyword, static>
+<keyword, char>
+<identifier, buf>
+<operator, [>
+<integer_constant, 1024>
+<operator, ]>
+<punctuator, ;>
+<keyword, extern>
+<keyword, int>
+<identifier, vsprintf>
+<operator, (>
+<keyword, char>
+<operator, *>
+<identifier, buf>
+<operator, ,>
+<keyword, const>
+<keyword, char>
+<operator, *>
+<identifier, fmt>
+<operator, ,>
+<identifier, va_list>
+<identifier, args>
+<operator, )>
+<punctuator, ;>
+<keyword, int>
+<identifier, printk>
+<operator, (>
+<keyword, const>
+<keyword, char>
+<operator, *>
+<identifier, fmt>
+<operator, ,>
+<operator, .>
+<operator, .>
+<operator, .>
+<operator, )>
+<punctuator, {>
+<identifier, va_list>
+<identifier, args>
+<punctuator, ;>
+<keyword, int>
+<identifier, i>
+<punctuator, ;>
+<identifier, va_start>
+<operator, (>
+<identifier, args>
+<operator, ,>
+<identifier, fmt>
+<operator, )>
+<punctuator, ;>
+<identifier, i>
+<operator, =>
+<identifier, vsprintf>
+<operator, (>
+<identifier, buf>
+<operator, ,>
+<identifier, fmt>
+<operator, ,>
+<identifier, args>
+<operator, )>
+<punctuator, ;>
+<identifier, va_end>
+<operator, (>
+<identifier, args>
+<operator, )>
+<punctuator, ;>
+<identifier, __asm__>
+<operator, (>
+<string_literal, "push %%fs\n\t">
+<string_literal, "push %%ds\n\t">
+<string_literal, "pop %%fs\n\t">
+<string_literal, "pushl %0\n\t">
+<string_literal, "pushl $_buf\n\t">
+<string_literal, "pushl $0\n\t">
+<string_literal, "call _tty_write\n\t">
+<string_literal, "addl $8,%%esp\n\t">
+<string_literal, "popl %0\n\t">
+<string_literal, "pop %%fs">
+<operator, :>
+<operator, :>
+<string_literal, "r">
+<operator, (>
+<identifier, i>
+<operator, )>
+<operator, :>
+<string_literal, "ax">
+<operator, ,>
+<string_literal, "cx">
+<operator, ,>
+<string_literal, "dx">
+<operator, )>
+<punctuator, ;>
+<keyword, return>
+<identifier, i>
+<punctuator, ;>
+<punctuator, }>

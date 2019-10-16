@@ -1,0 +1,10 @@
+<punctuator, #>
+<identifier, include>
+<header_name, <linux/fs.h>>
+<keyword, struct>
+<identifier, file>
+<identifier, file_table>
+<operator, [>
+<identifier, NR_FILE>
+<operator, ]>
+<punctuator, ;>
