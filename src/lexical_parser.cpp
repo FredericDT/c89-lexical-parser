@@ -103,7 +103,7 @@ namespace fdt {
                 "^([_a-zA-Z][_a-zA-Z0-9]*)"); // same as identifier, see reference http://www.open-std.org/Jtc1/sc22/wg14/www/docs/n1124.pdf
 
         const RE2 CHARACTER_CONSTANT_REGEX(
-                "^(L?'([^'\\\\n]|\\\\['\"?\\abfnrtv]|\\\\[0-7]{1,3}|\\\\x[0-9a-fA-F]+)')");
+                "^(L?'([^'\\\n]|\\\\['\"?\\abfnrtv]|\\\\[0-7]{1,3}|\\\\x[0-9a-fA-F]+)')");
 
         const RE2 STRING_LITERAL_REGEX(
                 "^(L?\"([^\"\\\\\\n]|(\\\\['\"?\\\\abfnrtv]|\\\\[0-7]{1,3}|\\\\x[0-9a-fA-F]+)+)*\")");
