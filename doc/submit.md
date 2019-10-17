@@ -53,6 +53,7 @@ stdout 应正确打印未忽略注释的 token 结果
 5. 样例 5
 
 `rsync -a --include='*/' --exclude='*' linux-0.11 test/resources/`
+
 `find linux-0.11 -type f | grep "\.*\.c" | xargs -I {} sh -c "echo {} && ./src/c89_lexical_parse -f {} -o test/resources{}.tokens"`
 
 所有文件应能正确分析，特别注意，需要提前创建目录,此处 rsync 及 find - grep - xargs 仅供参考，若要完成批处理，需要自行修改上述 shell
