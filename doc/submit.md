@@ -23,7 +23,7 @@
 - 遵守 c89 标准，最终成果可以完成 kernel 早期版本的词法分析
 
 ## 测试方法
-
+![](assets/run-example.png)
 1. 样例 1
 
 `./src/c89_lexical_parse -f linux-0.11/mm/memory.c`
