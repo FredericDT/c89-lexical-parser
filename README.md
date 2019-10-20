@@ -13,6 +13,11 @@ cmake ..
 cmake --build .
 ```
 
+## Development
+
+### API
+[See doc/html](doc/html)
+
 ## `src/c89_lexical_parser`
 
 ### arguments
